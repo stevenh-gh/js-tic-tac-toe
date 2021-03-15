@@ -7,3 +7,10 @@ const board = (() => {
 
   return { grid, fill }
 })()
+
+const PlayerFactory = xo => {
+  const team = xo
+  const fill = coord => board.fill(team, coord)
+
+  return { fill }
+}
