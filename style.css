@@ -1,0 +1,10 @@
+h1 {
+  text-align: center;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: repeat(3, 190px);
+  grid-template-rows: repeat(3, 190px);
+  justify-content: center;
+}
