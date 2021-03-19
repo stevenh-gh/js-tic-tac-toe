@@ -9,3 +9,14 @@ h1 {
   grid-template-rows: repeat(3, 190px);
   justify-content: center;
 }
+
+div[data-cell] div {
+  color: white;
+  pointer-events: none;
+  user-select: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 210px;
+  line-height: 190px;
+  text-align: center;
+  vertical-align: middle;
+}
