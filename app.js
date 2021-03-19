@@ -1,8 +1,21 @@
 const board = (() => {
   let grid = [...Array(3)].map(e => Array(3))
 
+  const isUndefined = coord => grid[coord[0]][coord[1]] === undefined
+
   const fill = (xo, coord) => grid[coord[0]][coord[1]] = xo
-  return { grid, fill }
+
+  const checkWin = lastMove => {
+    //check right
+    //check left
+    //check up
+    //check down
+    //check up right
+    //check up left
+    //check down right
+    //check down left
+  }
+  return { grid, fill, isUndefined, checkWin }
 })()
 
 const PlayerFactory = xo => {
@@ -26,16 +39,20 @@ const Game = (() => {
         let cell = e.target.dataset.cell
         let coord = [Number(cell[0]), Number(cell[1])]
 
-        let currentPlayer = turn % 2 === 0 ? player1 : player2
+        if (board.isUndefined(coord)) {
+          let currentPlayer = turn % 2 === 0 ? player1 : player2
 
-        currentPlayer.fill(coord)
-        const getCell = document.querySelector(`div[data-cell='${coord.join('')}']`)
-        const xoText = document.createTextNode(currentPlayer.team.toUpperCase())
-        const span = document.createElement('DIV')
-        span.appendChild(xoText)
-        getCell.appendChild(span)
+          currentPlayer.fill(coord)
+          const getCell = document.querySelector(`div[data-cell='${coord.join('')}']`)
+          // const span = document.createElement('DIV')
+          // span.innerText = currentPlayer.team.toUpperCase()
+          // getCell.appendChild(span)
+          const getDiv = getCell.querySelector('div')
+          getDiv.innerText = currentPlayer.team.toUpperCase()
 
-        turn++
+
+          turn++
+        }
       })
     })
   }
