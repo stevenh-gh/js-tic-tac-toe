@@ -39,6 +39,19 @@ const board = (() => {
     })
 
     // check diags
+    if (grid[0][0] === grid[1][1] && grid[0][0] === grid[2][2]) {
+      if (grid[0][0] !== undefined) {
+        winStatus = true
+        return winStatus
+      }
+    }
+
+    if (grid[0][2] === grid[1][1] && grid[0][2] === grid[2][0]) {
+      if (grid[0][2] !== undefined) {
+        winStatus = true
+        return winStatus
+      }
+    }
     return winStatus
 
   }
