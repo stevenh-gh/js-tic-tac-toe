@@ -5,15 +5,30 @@ const board = (() => {
 
   const fill = (xo, coord) => grid[coord[0]][coord[1]] = xo
 
-  const checkWin = lastMove => {
-    //check right
-    //check left
-    //check up
-    //check down
-    //check up right
-    //check up left
-    //check down right
-    //check down left
+  const checkWin = () => {
+    /*
+    00 01 02
+    10 11 12
+    20 21 22
+    */
+
+    // check left->right
+    let winStatus = false
+    grid.forEach((array, arrayIndex) => {
+      if (array[0] === array[1] && array[1] === array[2]) {
+        if (array[0] !== undefined) {
+          winStatus = true
+          return winStatus
+        }
+      }
+    })
+
+    // check top-downs
+    let col = [...Array(3)].map((el, idx) => [].push([0, 1, 2].forEach(e => { grid[e][idx] })))
+
+    console.log(col)
+    return winStatus
+
   }
   return { grid, fill, isUndefined, checkWin }
 })()
@@ -49,6 +64,8 @@ const Game = (() => {
           // getCell.appendChild(span)
           const getDiv = getCell.querySelector('div')
           getDiv.innerText = currentPlayer.team.toUpperCase()
+
+          console.log(board.checkWin())
 
 
           turn++
