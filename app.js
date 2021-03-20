@@ -24,9 +24,21 @@ const board = (() => {
     })
 
     // check top-downs
-    let col = [...Array(3)].map((el, idx) => [].push([0, 1, 2].forEach(e => { grid[e][idx] })))
+    let col = []
+    grid.forEach((row, rowIdx) => {
+      col.push(grid.map(array => array[rowIdx]))
+    })
 
-    console.log(col)
+    col.forEach(row => {
+      if (row[0] === row[1] && row[0] === row[2]) {
+        if (row[0] !== undefined) {
+          winStatus = true
+          return winStatus
+        }
+      }
+    })
+
+    // check diags
     return winStatus
 
   }
