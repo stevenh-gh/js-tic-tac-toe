@@ -72,34 +72,40 @@ const Game = (() => {
   let player1 = PlayerFactory('x')
   let player2 = PlayerFactory('o')
 
+  const play = e => {
+    let cell = e.target.dataset.cell
+    let coord = [Number(cell[0]), Number(cell[1])]
+
+    if (board.isUndefined(coord)) {
+      let currentPlayer = turn % 2 === 0 ? player1 : player2
+
+      currentPlayer.fill(coord)
+      const getCell = document.querySelector(`div[data-cell='${coord.join('')}']`)
+      // const span = document.createElement('DIV')
+      // span.innerText = currentPlayer.team.toUpperCase()
+      // getCell.appendChild(span)
+      const getDiv = getCell.querySelector('div')
+      getDiv.innerText = currentPlayer.team.toUpperCase()
+
+      console.log(board.checkWin())
+      if (board.checkWin()) {
+        console.log(`Winner: Player ${currentPlayer.team.toUpperCase()}`)
+      }
+
+      turn++
+    }
+  }
+
   const getCoord = () => {
     const cells = document.querySelectorAll('div[data-cell]')
     cells.forEach(el => {
       el.addEventListener('click', e => {
-        let cell = e.target.dataset.cell
-        let coord = [Number(cell[0]), Number(cell[1])]
-
-        if (board.isUndefined(coord)) {
-          let currentPlayer = turn % 2 === 0 ? player1 : player2
-
-          currentPlayer.fill(coord)
-          const getCell = document.querySelector(`div[data-cell='${coord.join('')}']`)
-          // const span = document.createElement('DIV')
-          // span.innerText = currentPlayer.team.toUpperCase()
-          // getCell.appendChild(span)
-          const getDiv = getCell.querySelector('div')
-          getDiv.innerText = currentPlayer.team.toUpperCase()
-
-          console.log(board.checkWin())
-
-
-          turn++
-        }
+        play(e)
       })
     })
   }
 
-  const play = () => {
+  const pla = () => {
     let player1 = PlayerFactory('x')
     let player2 = PlayerFactory('o')
 
