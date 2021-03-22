@@ -66,11 +66,11 @@ const board = (() => {
 
 const PlayerFactory = xo => {
   const team = xo
-  function fill(coord) {
+  function addMove(coord) {
     return board.fill(team, coord)
   }
 
-  return { fill, team }
+  return { addMove, team }
 }
 
 const TicTacToe = (() => {
@@ -91,7 +91,7 @@ const TicTacToe = (() => {
     if (board.isUndefined(coord)) {
       let currentPlayer = turn % 2 === 0 ? player1 : player2
 
-      currentPlayer.fill(coord)
+      currentPlayer.addMove(coord)
       const getCell = document.querySelector(`div[data-cell='${coord.join('')}']`)
 
       const getDiv = getCell.querySelector('div')
