@@ -116,7 +116,7 @@ const TicTacToe = (() => {
     }
   }
 
-  function getCoord() {
+  function addEventListenerToCells() {
     cells.forEach(el => {
       el.addEventListener('click', play)
     })
@@ -125,7 +125,7 @@ const TicTacToe = (() => {
   startBtn.addEventListener('click', () => {
     startBtn.style.display = 'none'
     restartBtn.style.display = 'block'
-    getCoord()
+    addEventListenerToCells()
   })
   restartBtn.addEventListener('click', () => {
     turn = 0
@@ -133,7 +133,7 @@ const TicTacToe = (() => {
     cells.forEach(cell => {
       cell.querySelector('div').innerText = ''
     })
-    getCoord()
+    addEventListenerToCells()
   })
 
 })()
