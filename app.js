@@ -1,7 +1,21 @@
 const board = (() => {
+
   let grid = [...Array(3)].map(e => Array(3))
 
-  const isUndefined = coord => grid[coord[0]][coord[1]] === undefined
+  const reset = () => {
+    grid.forEach(row => {
+      row.forEach((e, idx) => {
+        delete row[idx]
+      })
+    })
+  }
+
+  // const isUndefined = coord => grid[coord[0]][coord[1]] === undefined
+  function isUndefined(coord) {
+    console.log('INSIDE IS UNDEFINED:')
+    console.log(grid)
+    return grid[coord[0]][coord[1]] === undefined
+  }
 
   const fill = (xo, coord) => grid[coord[0]][coord[1]] = xo
 
@@ -55,7 +69,7 @@ const board = (() => {
     return winStatus
 
   }
-  return { grid, fill, isUndefined, checkWin }
+  return { grid, fill, isUndefined, checkWin, reset }
 })()
 
 const PlayerFactory = xo => {
@@ -73,10 +87,14 @@ const Game = (() => {
   let player2 = PlayerFactory('o')
 
   const play = e => {
+    console.log(`TURN: ${turn}`)
     let cell = e.target.dataset.cell
     let coord = [Number(cell[0]), Number(cell[1])]
+    console.log(coord)
+    console.log(board.grid)
 
     if (board.isUndefined(coord)) {
+      console.log('is undefined')
       let currentPlayer = turn % 2 === 0 ? player1 : player2
 
       currentPlayer.fill(coord)
@@ -90,41 +108,53 @@ const Game = (() => {
       console.log(board.checkWin())
       if (board.checkWin()) {
         console.log(`Winner: Player ${currentPlayer.team.toUpperCase()}`)
+        cells.forEach(cell => {
+          cell.removeEventListener('click', play)
+        })
+        return
+      }
+      if (turn === 8) {
+        console.log('Match draw')
+        cells.forEach(cell => {
+          cell.removeEventListener('click', play)
+        })
+        return
       }
 
       turn++
     }
   }
 
+  const cells = document.querySelectorAll('div[data-cell]')
   const getCoord = () => {
-    const cells = document.querySelectorAll('div[data-cell]')
     cells.forEach(el => {
-      el.addEventListener('click', e => {
-        play(e)
-      })
+      el.addEventListener('click', play)
     })
   }
 
-  const pla = () => {
-    let player1 = PlayerFactory('x')
-    let player2 = PlayerFactory('o')
+  // const start = () => {
+  let startBtn = document.querySelector('#startBtn')
+  let restartBtn = document.querySelector('#restartBtn')
+  startBtn.addEventListener('click', () => {
+    startBtn.style.display = 'none'
+    restartBtn.style.display = 'block'
+    getCoord()
+  })
+  restartBtn.addEventListener('click', () => {
+    console.log('btn click')
+    // board.reset()
+    turn = 0
+    // board.grid = [...Array(3)].map(e => Array(3))
+    board.reset()
+    cells.forEach(cell => {
+      cell.querySelector('div').innerText = ''
+    })
+    getCoord()
+  })
 
-    while (!win) {
-      let coord = getCoord()
-      let currentPlayer = turn % 2 === 0 ? player1 : player2
-      currentPlayer.fill(coord)
-
-      // draw to html/css grid
-      const cell = document.querySelector(`div[data-cell='${coord.join('')}']`)
-      const xoText = document.createTextNode = currentPlayer.team.toUpperCase()
-      cell.appendChild(xoText)
-
-      turn++
-    }
-  }
-  return { play, getCoord }
+  // }
+  return { play }
 })()
-
 /*
 make players
 when not win:
